@@ -47,9 +47,15 @@ function startLoading(){
     interval = setInterval("iterateDots()", intervalMs);
 }    
 
+const audioElement = new Audio("music.mp3");
+
 $(document).ready(function () {
     $('#playBtn').click(function (e) { 
         e.preventDefault();
+
+        audioElement.play();
+        audioElement.volume = 0.3;
+        
         $('#mainApp').fadeOut(500, function(){
             actWindow = this
             $('#secondScreen').fadeIn(500, function(){
@@ -68,6 +74,8 @@ $(document).ready(function () {
             });
         });
     });
+
+
 
     $('#nameSubmit').click(function (e) { 
         e.preventDefault();
@@ -258,8 +266,7 @@ $(document).ready(function () {
                 $('#mainText').text(`${$('#player1Name').text()}'s turn!`);
             } else {
                 $('#mainText').text(`${$('#player2Name').text()}'s turn!`);
-            }
-            
+            } 
         }
     });
 
@@ -342,4 +349,19 @@ $(document).ready(function () {
         e.preventDefault();
         location.reload()
     });
+
+    let play
+    window.addEventListener("keydown", function (){
+        switch (event.keyCode) {
+            case 32: //SpaceBar                    
+                if (play) {
+                    audioElement.pause();
+                    play = false;
+                } else {
+                    audioElement.play();
+                    play = true;
+                }
+                break;
+        }
+    }, false);
 });
