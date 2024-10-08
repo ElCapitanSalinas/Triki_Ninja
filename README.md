@@ -6,8 +6,17 @@ This is the guide to run Triki Ninja, a project created using Node.js and Socket
 Triki is the name of Tic Toe game in Colombian spanish, I wanted to create a new experience around that name, using and japanese look and the Ninja design to bring identity to the app.
 
 Figma project: https://www.figma.com/design/25AbshOoOlNfPR3dLDWwjd/TRIKI?node-id=0-1&node-type=canvas&t=iDAtKZWsZFbUbhAi-0
+App is accessible from: http://5.180.151.194:3000
+
 
 All the UI design is handmade! Hope you like it! 😊
+
+### Features
+- Ambience and Identity
+- Player vs CPU mode
+- Online multiplayer
+- Light application
+- Designed inch-per–inch
 
 ## Dependencies
 
