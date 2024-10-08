@@ -51,8 +51,8 @@ const sessions = {
 }
 
 io.on('connection', (socket) => {
-    console.log('a user connected');
-    console.log(socket.id)
+    // console.log('a user connected');
+    // console.log(socket.id)
 
     socket.on('singleGame', (names) => {
         const matchID = generateRandomId();
@@ -80,12 +80,12 @@ io.on('connection', (socket) => {
             io.to(socket.id).emit('startMatch', sessions[matchID]);
             
             for (const id in sessions[matchID].players) {
-                console.log(`current turn ${sessions[matchID].players[sessions[matchID].turn]} `)
-                console.log(sessions[matchID].players[id])
+                // console.log(`current turn ${sessions[matchID].players[sessions[matchID].turn]} `)
+                // console.log(sessions[matchID].players[id])
                 io.to(sessions[matchID].players[id]).emit('assignTurn', sessions[matchID].players[sessions[matchID].turn], sessions[matchID].turn);
             }
         }, Math.floor(Math.random() * (6500 - 2500) + 2500));
-        console.log(names, matchID)
+        // console.log(names, matchID)
     })
 
     socket.on('multiGame', (names) => {
@@ -125,8 +125,8 @@ io.on('connection', (socket) => {
                 io.to(socket.id).emit('startMatch', sessions[matchID]);
     
                 for (const id in sessions[matchID].players) {
-                    console.log(`current turn ${sessions[matchID].players[sessions[matchID].turn]}`)
-                    console.log(sessions[matchID].players[id])
+                    // console.log(`current turn ${sessions[matchID].players[sessions[matchID].turn]}`)
+                    // console.log(sessions[matchID].players[id])
                     io.to(sessions[matchID].players[id]).emit('assignTurn', sessions[matchID].players[0], 0);
                 }
             }, Math.floor(Math.random() * (6500 - 2500) + 2500));
@@ -140,7 +140,7 @@ io.on('connection', (socket) => {
     socket.on('markBox', (x, y, matchID) => {
 
         sessions[matchID].moves = sessions[matchID].moves + 1
-        console.log(x,y, matchID)
+        // console.log(x,y, matchID)
         if (sessions[matchID].turn == 0){
             sessions[matchID].board[x][y] = 'o'
         } else {
@@ -150,7 +150,7 @@ io.on('connection', (socket) => {
 
         let victory = checkWinner(sessions[matchID].board, sessions[matchID].moves)
 
-        console.log(victory)
+        // console.log(victory)
         for (const id in sessions[matchID].players) {
             io.to(sessions[matchID].players[id]).emit('checkBox', x, y, sessions[matchID].board[x][y]);
         }
@@ -193,8 +193,8 @@ io.on('connection', (socket) => {
                     io.to(sessions[matchID].players[id]).emit('startMatch', sessions[matchID]);
                     
                     for (const id in sessions[matchID].players) {
-                        console.log(`current turn ${sessions[matchID].players[sessions[matchID].turn]} `)
-                        console.log(sessions[matchID].players[id])
+                        // console.log(`current turn ${sessions[matchID].players[sessions[matchID].turn]} `)
+                        // console.log(sessions[matchID].players[id])
                         io.to(sessions[matchID].players[id]).emit('assignTurn', sessions[matchID].players[sessions[matchID].turn], sessions[matchID].turn);
                     }
                 }, Math.floor(Math.random() * (6500 - 2500) + 2500));
@@ -230,8 +230,8 @@ io.on('connection', (socket) => {
                             io.to(sessions[matchID].players[id]).emit('startMatch', sessions[matchID]);
                             
                             for (const id in sessions[matchID].players) {
-                                console.log(`current turn ${sessions[matchID].players[sessions[matchID].turn]} `)
-                                console.log(sessions[matchID].players[id])
+                                // console.log(`current turn ${sessions[matchID].players[sessions[matchID].turn]} `)
+                                // console.log(sessions[matchID].players[id])
                                 io.to(sessions[matchID].players[id]).emit('assignTurn', sessions[matchID].players[sessions[matchID].turn], sessions[matchID].turn);
                             }
                         }, Math.floor(Math.random() * (6500 - 2500) + 2500));
@@ -260,7 +260,7 @@ io.on('connection', (socket) => {
     
         const victory = checkWinner(sessions[matchID].board, sessions[matchID].moves)
         
-        console.log(victory)
+        // console.log(victory)
         if (victory == undefined) {
         
             if (sessions[matchID].turn == 0) {
@@ -271,7 +271,7 @@ io.on('connection', (socket) => {
 
             for (const id in sessions[matchID].players) {
                 setTimeout(() => {
-                    console.log('Assigned '+sessions[matchID].turn)
+                    // console.log('Assigned '+sessions[matchID].turn)
                     io.to(sessions[matchID].players[id]).emit('assignTurn', sessions[matchID].players[sessions[matchID].turn], sessions[matchID].turn);
                 }, 1400);
             }
@@ -292,8 +292,8 @@ io.on('connection', (socket) => {
                     io.to(sessions[matchID].players[id]).emit('startMatch', sessions[matchID]);
                     
                     for (const id in sessions[matchID].players) {
-                        console.log(`current turn ${sessions[matchID].players[sessions[matchID].turn]} `)
-                        console.log(sessions[matchID].players[id])
+                        // console.log(`current turn ${sessions[matchID].players[sessions[matchID].turn]} `)
+                        // console.log(sessions[matchID].players[id])
                         io.to(sessions[matchID].players[id]).emit('assignTurn', sessions[matchID].players[sessions[matchID].turn], sessions[matchID].turn);
                     }
                 }, Math.floor(Math.random() * (6500 - 2500) + 2500));
@@ -327,8 +327,8 @@ io.on('connection', (socket) => {
                             io.to(sessions[matchID].players[id]).emit('startMatch', sessions[matchID]);
                             
                             for (const id in sessions[matchID].players) {
-                                console.log(`current turn ${sessions[matchID].players[sessions[matchID].turn]} `)
-                                console.log(sessions[matchID].players[id])
+                                // console.log(`current turn ${sessions[matchID].players[sessions[matchID].turn]} `)
+                                // console.log(sessions[matchID].players[id])
                                 io.to(sessions[matchID].players[id]).emit('assignTurn', sessions[matchID].players[sessions[matchID].turn], sessions[matchID].turn);
                             }
                         }, Math.floor(Math.random() * (6500 - 2500) + 2500));
@@ -340,7 +340,7 @@ io.on('connection', (socket) => {
 });
 
 server.listen(port, function () {
-    console.log(`App running on port ${port}`)
+    // console.log(`App running on port ${port}`)
 });
 
 
@@ -357,7 +357,7 @@ function generateRandomId() {
 
 function checkWinner(board, turn){
     // Checking rows
-    console.log(turn)
+    // console.log(turn)
     if (turn == 9){
         return 'draw'
     }
