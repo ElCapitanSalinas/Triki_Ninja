@@ -1,0 +1,20 @@
+
+
+body {
+    overflow: hidden;
+}
+
+#singleTitle, #dragonWarrior {
+    text-shadow: 2px 0 #9a3412, -2px 0 #9a3412, 0 2px #9a3412, 0 -2px #9a3412,
+               1px 1px #9a3412, -1px -1px #9a3412, 1px -1px #9a3412, -1px 1px #9a3412;
+}
+
+#player1Name, .player1Name {
+    text-shadow: 3px 0 #F00, -3px 0 #F00, 0 3px #F00, 0 -3px #F00,
+    1px 1px #F00, -1px -1px #F00, 1px -1px #F00, -1px 1px #F00;
+}
+
+#player2Name, .player2Name {
+    text-shadow: 3px 0 #0BF, -3px 0 #0BF, 0 3px #0BF, 0 -3px #0BF,
+    1px 1px #0BF, -1px -1px #0BF, 1px -1px #0BF, -1px 1px #0BF;
+}
