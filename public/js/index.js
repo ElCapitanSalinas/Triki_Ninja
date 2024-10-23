@@ -132,7 +132,8 @@ $(document).ready(function () {
         });
     });
 
-    
+
+
     $('#LocalMultiBtn').click(function (e) { 
         e.preventDefault();
         $('#secondScreen').fadeOut(500, function(){
@@ -172,6 +173,7 @@ $(document).ready(function () {
     });
 
 
+
     socket.on('matchPrep', (sessionData, matchId) => {
         $('#name').val('')
         $('#player1Name').text(sessionData.playerNames[0]);
@@ -186,6 +188,7 @@ $(document).ready(function () {
         gameRoom = matchId
     });
 
+    
     socket.on('matchMulti', (sessionData, matchId) => {
         $('#name').val('')
         $('#player1Name').text(sessionData.playerNames[0]);
@@ -270,7 +273,10 @@ $(document).ready(function () {
         }
     });
 
+ 
+
     socket.on('partyWon', (Score, winner) => {
+        
         if (winner == 'a'){
             $('#wins').text(Score[0]);
             $('#defeats').text(Score[1]);
@@ -312,21 +318,20 @@ $(document).ready(function () {
         markBox(x, y, figure)
     });
 
-    socket.on('matchWon', (player, score, method, direction) => {
-        if (method == 'col'){
-            if (direction == 2){
-                $('#column-line').addClass('left-48');
-            } else if (direction == 3){
-                $('#column-line').addClass('translate-x-44');
-            }
-        }
-        $('#textMatch').html(player+` Won the match! <br> The board is ${score[0]} - ${score[1]}`);
-        $('#wins-1').html(score[0]);
-        $('#wins-2').html(score[1]);
-        $('#matchStarter').fadeIn(500);
+
+    
+    socket.on('matchWon', (player, score, method, move) => {
+        displayLine(method, move)
         setTimeout(() => {
-            $('#matchStarter').fadeOut();
-        }, 3000);
+            $('#bar').fadeOut();
+            $('#textMatch').html(player+` Won the match! <br> The board is ${score[0]} - ${score[1]}`);
+            $('#wins-1').html(score[0]);
+            $('#wins-2').html(score[1]);
+            $('#matchStarter').fadeIn(500);
+            setTimeout(() => {
+                $('#matchStarter').fadeOut();
+            }, 3000);
+        }, 6000);
     });
 
     function markBox(x, y, figure) { 
@@ -365,3 +370,32 @@ $(document).ready(function () {
         }
     }, false);
 });
+
+function displayLine(method, move) { 
+
+    // if row
+    if (method == 'rows'){
+        var x = $("#box-1-"+move).offset().left+70;
+        var y = $("#box-1-"+move).offset().top+60;
+        
+        $("#bar").css({top: y, left: x, position:'absolute'});
+    } else if (method == 'cols') {
+        var x = $("#box-"+move+"-1").offset().left-140;
+        var y = $("#box-1-1").offset().top+60;
+
+        $("#bar").css({top: y, left: x, position:'absolute', transform: "rotate(90deg)"});
+    } else if (method == 'diag') {
+        if (move == 1) {
+            var x = $("#box-1-1").offset().left-140;
+            var y = $("#box-1-1").offset().top+60;
+
+            $("#bar").css({top: y, left: x, position:'absolute', transform: "rotate(45deg)"});
+        } else {
+            var x = $("#box-1-1").offset().left-140;
+            var y = $("#box-1-1").offset().top+60;
+
+            $("#bar").css({top: y, left: x, position:'absolute', transform: "rotate(-45deg)"});
+        }
+    }
+    $('#bar').fadeIn(500);
+}

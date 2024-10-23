@@ -178,7 +178,7 @@ io.on('connection', (socket) => {
                 
             }
 
-        } else if (victory == 'draw'){
+        } else if (victory.result == 'draw'){
             for (const id in sessions[matchID].players) {
                 io.to(sessions[matchID].players[id]).emit('restartMatch', sessions[matchID]);
 
@@ -202,7 +202,7 @@ io.on('connection', (socket) => {
         } else {
             sessions[matchID].scoreboard[sessions[matchID].turn] = sessions[matchID].scoreboard[sessions[matchID].turn] + 1
             for (const id in sessions[matchID].players) {
-                io.to(sessions[matchID].players[id]).emit('matchWon', sessions[matchID].playerNames[sessions[matchID].turn], sessions[matchID].scoreboard);
+                io.to(sessions[matchID].players[id]).emit('matchWon', sessions[matchID].playerNames[sessions[matchID].turn], sessions[matchID].scoreboard, victory.method, victory.move);
                 if (sessions[matchID].scoreboard[id] >= 3){
                        // WIN DEF
                        var winner = 'b'
@@ -275,7 +275,7 @@ io.on('connection', (socket) => {
                     io.to(sessions[matchID].players[id]).emit('assignTurn', sessions[matchID].players[sessions[matchID].turn], sessions[matchID].turn);
                 }, 1400);
             }
-        } else if (victory == 'draw'){
+        } else if (victory.result == 'draw'){
             
             for (const id in sessions[matchID].players) {
                 io.to(sessions[matchID].players[id]).emit('restartMatch', sessions[matchID]);
@@ -301,7 +301,7 @@ io.on('connection', (socket) => {
         } else {
             sessions[matchID].scoreboard[sessions[matchID].turn] = sessions[matchID].scoreboard[sessions[matchID].turn] + 1
             for (const id in sessions[matchID].players) {
-                io.to(sessions[matchID].players[id]).emit('matchWon', sessions[matchID].playerNames[sessions[matchID].turn], sessions[matchID].scoreboard);
+                io.to(sessions[matchID].players[id]).emit('matchWon', sessions[matchID].playerNames[sessions[matchID].turn], sessions[matchID].scoreboard, victory.method, victory.move);
                 if (sessions[matchID].scoreboard[id] >= 3){
                     // WIN DEF
                     var winner = 'b'
@@ -359,7 +359,7 @@ function checkWinner(board, turn){
     // Checking rows
     // console.log(turn)
     if (turn == 9){
-        return 'draw'
+        return {result: 'draw'};
     }
 
     for (let i = 0; i < 3; i++) {
@@ -368,7 +368,7 @@ function checkWinner(board, turn){
         const c = board[i][2];
 
         if (a != '' && a === b && b === c) {
-            return 'win';
+            return{result: 'win', method:'cols', move: i};
         }
     }
 
@@ -379,7 +379,7 @@ function checkWinner(board, turn){
         const c = board[2][i];
 
         if (a != '' && a === b && b === c) {
-            return 'win';
+            return{result: 'win', method:'rows', move: i};
         }
     }
 
@@ -389,7 +389,7 @@ function checkWinner(board, turn){
     const c = board[2][2];
 
     if (a != '' && a === b && b === c) {
-        return 'win';
+        return{result: 'win', method:'diag', move: 1};
     }
 
     // Right Top to Left bottom diagonal
@@ -398,8 +398,7 @@ function checkWinner(board, turn){
     const f = board[2][0];
 
     if (d != '' && d === e && e === f) {
-        return 'win';
-        
+        return{result: 'win', method:'diag', move: 2};
     }
 
     // Check for draw
@@ -410,7 +409,7 @@ function checkWinner(board, turn){
         }
     }
 
-    return 'draw';
+    return {result: 'draw'};
 };
 
 
